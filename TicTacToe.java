@@ -1,29 +1,76 @@
+import java.util.Random;
+
 /**
  * TicTacToe
- * UC6 places a player's symbol on the board at the given position.
- * This use case focuses on updating game state.
+ * UC7 allows the computer to make a random valid move
+ * by reusing slot conversion and validation logic.
  */
 public class TicTacToe {
 
-    static char[][] board = new char[3][3];
+    static char[][] board = {
+        {'-', '-', '-'},
+        {'-', '-', '-'},
+        {'-', '-', '-'}
+    };
+    static char computerSymbol = 'O';
 
-    /**
-     * Entry point of the program. Places a sample move
-     * and prints the updated cell value.
-     */
     public static void main(String[] args) {
-        // Assume board was initialized to '-' previously
-        placeMove(0, 0, 'X');
-        System.out.println("Value at (0,0): " + board[0][0]);
+        // Trigger the computer move
+        computerMove();
+        // Print board to see the result
+        printBoard();
     }
 
     /**
-     * Updates the board by placing the given symbol at
-     * the specified row and column.
-     * Input: Row, Column, Symbol
-     * Hint: Assume the move is already validated.
+     * Generates random slot values until a valid move is found,
+     * then places the computer symbol on the board.
      */
+    static void computerMove() {
+        Random random = new Random();
+        boolean moved = false;
+
+        while (!moved) {
+            // Generate a random slot between 1 and 9
+            int slot = random.nextInt(9) + 1;
+            
+            // Reuse UC4 logic to get indices
+            int row = getRowFromSlot(slot);
+            int col = getColFromSlot(slot);
+
+            // Reuse UC5 logic to validate
+            if (isValidMove(row, col)) {
+                // Reuse UC6 logic to place the symbol
+                placeMove(row, col, computerSymbol);
+                System.out.println("Computer chose slot: " + slot);
+                moved = true;
+            }
+        }
+    }
+
+    // --- Reused Logic from UC1, UC4, UC5, UC6 ---
+
+    static int getRowFromSlot(int slot) {
+        return (slot - 1) / 3;
+    }
+
+    static int getColFromSlot(int slot) {
+        return (slot - 1) % 3;
+    }
+
+    static boolean isValidMove(int row, int col) {
+        return board[row][col] == '-';
+    }
+
     static void placeMove(int row, int col, char symbol) {
         board[row][col] = symbol;
+    }
+
+    static void printBoard() {
+        for (char[] row : board) {
+            for (char cell : row) {
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
     }
 }
