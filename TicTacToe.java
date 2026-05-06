@@ -1,55 +1,30 @@
-import java.util.Random;
+import java.util.Scanner;
 
 /**
  * TicTacToe
- * UC2 performs a random toss to decide who plays first and assigns
- * symbols (X or O) to the human and computer accordingly.
+ * UC3 reads a slot number (1-9) entered by the user. This use case
+ * focuses only on input handling without validation.
  */
 public class TicTacToe {
 
-    static boolean isHumanTurn;
-    static char humanSymbol;
-    static char computerSymbol;
-
     /**
-     * Entry point of the program. Executes the toss logic and displays
-     * the result of turn and symbol assignment.
+     * Entry point of the program. Reads slot input and prints it back
+     * to verify correct user input handling.
      */
     public static void main(String[] args) {
-        tossAndAssignSymbols();
-        displayTossResult();
+        int slot = getUserSlot();
+        System.out.println("Slot entered: " + slot);
     }
 
     /**
-     * Uses random logic to decide the first player and assigns symbols
-     * based on the toss outcome. This method initializes the game state.
+     * Reads an integer slot value from the user.
+     * Output: Slot number (1-9)
+     * Hint: Validation will be added in later use cases.
      */
-    static void tossAndAssignSymbols() {
-        Random random = new Random();
-        // Generates either true or false randomly
-        isHumanTurn = random.nextBoolean();
-
-        if (isHumanTurn) {
-            humanSymbol = 'X';
-            computerSymbol = 'O';
-        } else {
-            humanSymbol = 'O';
-            computerSymbol = 'X';
-        }
-    }
-
-    /**
-     * Displays the toss result, indicating who plays first and which
-     * symbol is assigned to each player.
-     */
-    static void displayTossResult() {
-        System.out.println("Toss Result:");
-        if (isHumanTurn) {
-            System.out.println("Human won the toss and plays first!");
-        } else {
-            System.out.println("Computer won the toss and plays first!");
-        }
-        System.out.println("Human Symbol: " + humanSymbol);
-        System.out.println("Computer Symbol: " + computerSymbol);
+    static int getUserSlot() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a slot (1-9): ");
+        int slot = scanner.nextInt();
+        return slot;
     }
 }
