@@ -1,56 +1,45 @@
 /**
  * TicTacToe
- * UC9: Check Winning Condition
- * Detects if a player has won the game by checking rows, columns, and diagonals.
+ * UC10: Detect Draw Condition
+ * Detects when no moves remain by checking for empty cells on the board.
  */
 public class TicTacToe {
 
     static char[][] board = new char[3][3];
 
-    // Master method to check all win conditions
-    public static boolean isWin(char symbol) {
-        return (checkRows(symbol) || checkCols(symbol) || checkDiagonals(symbol));
-    }
-
-    // 1. Check all three rows
-    private static boolean checkRows(char symbol) {
-        for (int i = 0; i < 3; i++) {
-            if (board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol) {
-                return true;
+    /**
+     * Checks if the game is a draw.
+     * Logic: If no cells contain '-', the board is full.
+     * Note: This should always be called AFTER checking for a win.
+     * 
+     * @return true if the board is full, false otherwise.
+     */
+    public static boolean isDraw() {
+        // Loop Traversal: Iterate through each row
+        for (int row = 0; row < 3; row++) {
+            // Iterate through each column in that row
+            for (int col = 0; col < 3; col++) {
+                // Boolean Flag logic: If an empty cell is found, it's not a draw
+                if (board[row][col] == '-') {
+                    return false; 
+                }
             }
         }
-        return false;
+        // If the loops complete without returning false, every cell is filled
+        return true; 
     }
 
-    // 2. Check all three columns
-    private static boolean checkCols(char symbol) {
-        for (int i = 0; i < 3; i++) {
-            if (board[0][i] == symbol && board[1][i] == symbol && board[2][i] == symbol) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // 3. Check the two diagonals
-    private static boolean checkDiagonals(char symbol) {
-        // Left-to-Right diagonal
-        boolean diag1 = (board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol);
-        // Right-to-Left diagonal
-        boolean diag2 = (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol);
-        
-        return diag1 || diag2;
-    }
-
-    // Sample main to test UC9 logic specifically
+    // Sample main to test UC10 logic
     public static void main(String[] args) {
-        // Mock a win for player 'X' in the first row
-        board[0][0] = 'X'; board[0][1] = 'X'; board[0][2] = 'X';
-        
-        if (isWin('X')) {
-            System.out.println("Win detected for Player X!");
+        // Manually filling the board to simulate a draw state
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) board[i][j] = 'X';
+        }
+
+        if (isDraw()) {
+            System.out.println("Draw detected! No moves remaining.");
         } else {
-            System.out.println("No win detected.");
+            System.out.println("Game continues...");
         }
     }
 }
